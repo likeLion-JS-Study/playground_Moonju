@@ -16,5 +16,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
+export const firebaseInstance = firebaseConfig;
+
 // 서비스만 export 함 -> 단 한번만 호출하고 export 시켜줌
 export const authService = getAuth(app);

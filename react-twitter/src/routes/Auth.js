@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import {
   getAuth,
   signInWithEmailAndPassword,
-  createUserWithEmailAndPassword
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
+import { authService, firebaseInstance } from "../fBase";
 
 const Auth = () =>{
                                     // 기본값은 비어있다
@@ -41,7 +45,21 @@ const Auth = () =>{
   };
 
   // newAccount의 이전 값을 가져와서 그 값에 반대되는 것을 리턴
-const toggleAccount = () => setNewAccount((prev) => !prev);
+  const toggleAccount = () => setNewAccount((prev) => !prev); 
+
+  const onSocialClick = async (event) => {
+    const {
+      target: { name },
+    } = event;
+    let provider;
+    if (name === "google") {
+      provider = new GoogleAuthProvider();
+    } else if (name === "github") {
+      provider = new GithubAuthProvider();
+    }
+    const data = await signInWithPopup(authService, provider);
+    console.log(data);
+  };
 
   return (
     <div>
@@ -67,8 +85,8 @@ const toggleAccount = () => setNewAccount((prev) => !prev);
         {newAccount ? "Sign in" : "Create Account"}
       </span>
       <div>
-        <button>Continue with Google</button>
-        <button>Continue with Github</button>
+        <button onClick={onSocialClick} name="google">Continue with Google</button>
+        <button onClick={onSocialClick} name="github">Continue with Github</button>
       </div>
     </div>
   );
@@ -83,3 +101,4 @@ export default Auth;
 // input이 바뀌는 순간마다 state도 바뀐다.
 
 // 계정 생성, 로그인
+// 팝업 
