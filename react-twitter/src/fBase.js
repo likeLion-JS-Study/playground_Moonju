@@ -1,5 +1,5 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from 'firebase/app';
+import { getAuth } from "firebase/auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,5 +13,8 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_APP_ID,
 };
 
-// Initialize Firebase
-export default initializeApp(firebaseConfig);
+
+const app = initializeApp(firebaseConfig);
+
+// 서비스만 export 함 -> 단 한번만 호출하고 export 시켜줌
+export const authService = getAuth(app);
